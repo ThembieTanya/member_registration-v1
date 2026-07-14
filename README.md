@@ -24,3 +24,35 @@ Member Registration System - A comprehensive member registration and management 
 1. Clone the repository:
 ```bash
 git clone https://github.com/ThembieTanya/member-registration.git
+
+2. Import database.sql to phpMyAdmin
+
+3. Configure config.php with your database credentials
+
+4. Access the system:
+http://localhost/member_registration/login.php
+
+👤 Default Credentials
+**Role	Username	    Password**
+Admin	  admin	        admin123
+Editor	hopley_editor	admin123
+Viewer	viewer	      viewer123
+
+**📁 Project Structure**
+[Include your folder structure here]
+
+**🔒 Security**
+a. Password hashing with bcrypt
+b. PDO prepared statements
+c. Role-based access control
+d. Session management
+e. Input validation
+
+**📄 License**
+All rights reserved. For educational and non profit-making use only.
+
+
+---
+
+You can customize it further based on your specific implementation!
+@ThembieTanya2026 
