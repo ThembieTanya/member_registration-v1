@@ -1,0 +1,67 @@
+<?php
+session_start();
+
+if (!isset($_SESSION['user_id'])) {
+    header('Location: login.php');
+    exit;
+}
+
+$file = $_GET['file'] ?? '';
+$file = basename($file);
+$file_path = __DIR__ . '/' . $file;
+
+if (!file_exists($file_path)) {
+    die('File not found');
+}
+
+$content = htmlspecialchars(file_get_contents($file_path));
+?>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Print: <?= htmlspecialchars($file) ?></title>
+    <style>
+        @media print {
+            body { font-family: 'Courier New', monospace; font-size: 10px; }
+            .no-print { display: none; }
+            pre { white-space: pre-wrap; word-wrap: break-word; }
+            .header { background: #333; color: white; padding: 10px; }
+            .header h1 { color: white; }
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Courier New', monospace; background: white; padding: 20px; }
+        .header { background: #2c3e50; color: white; padding: 15px; margin-bottom: 20px; }
+        .header h1 { color: white; font-size: 20px; }
+        .file-info { background: #f4f4f4; padding: 10px; margin-bottom: 20px; border-left: 4px solid #3498db; }
+        pre { background: #f8f9fa; padding: 20px; border: 1px solid #dee2e6; white-space: pre-wrap; word-wrap: break-word; font-size: 12px; line-height: 1.6; }
+        .no-print { display: block; margin-top: 20px; }
+        .btn { display: inline-block; padding: 8px 16px; background: #3498db; color: white; text-decoration: none; border-radius: 4px; border: none; cursor: pointer; }
+        .btn:hover { background: #2980b9; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>📄 <?= htmlspecialchars($file) ?></h1>
+    </div>
+    
+    <div class="file-info">
+        <strong>File:</strong> <?= htmlspecialchars($file) ?> &nbsp;|&nbsp;
+        <strong>Printed:</strong> <?= date('Y-m-d H:i:s') ?>
+    </div>
+    
+    <pre><?= $content ?></pre>
+    
+    <div class="no-print" style="margin-top: 20px;">
+        <button onclick="window.print()" class="btn">🖨️ Print</button>
+        <a href="download_files.php" class="btn" style="background: #6c757d;">⬅️ Back</a>
+    </div>
+    
+    <script>
+        // Auto print when page loads
+        window.onload = function() {
+            // Uncomment below to auto-print
+            // window.print();
+        }
+    </script>
+</body>
+</html>

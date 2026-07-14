@@ -1,0 +1,71 @@
+<?php
+session_start();
+
+if (!isset($_SESSION['user_id'])) {
+    header('Location: login.php');
+    exit;
+}
+
+$php_files = glob('*.php');
+?>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Print All Files</title>
+    <style>
+        @media print {
+            body { font-family: 'Courier New', monospace; font-size: 9px; }
+            .no-print { display: none; }
+            .file-section { page-break-after: always; }
+            pre { white-space: pre-wrap; word-wrap: break-word; }
+            .header { background: #333; color: white; padding: 10px; }
+            .header h1 { color: white; }
+            .file-header { background: #f4f4f4; padding: 5px; margin-top: 10px; border-bottom: 2px solid #333; }
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Courier New', monospace; background: white; padding: 20px; }
+        .header { background: #2c3e50; color: white; padding: 15px; margin-bottom: 20px; }
+        .header h1 { color: white; }
+        .file-section { margin-bottom: 30px; border: 1px solid #dee2e6; }
+        .file-header { background: #f8f9fa; padding: 10px; border-bottom: 2px solid #dee2e6; }
+        .file-header h2 { color: #2c3e50; font-size: 16px; }
+        pre { background: #f8f9fa; padding: 15px; margin: 0; white-space: pre-wrap; word-wrap: break-word; font-size: 11px; line-height: 1.5; }
+        .no-print { margin-top: 20px; text-align: center; }
+        .btn { display: inline-block; padding: 10px 20px; background: #3498db; color: white; text-decoration: none; border-radius: 4px; border: none; cursor: pointer; }
+        .btn:hover { background: #2980b9; }
+        .btn-print { background: #8e44ad; }
+        .btn-print:hover { background: #7d3c98; }
+        .file-count { color: #6c757d; font-size: 14px; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>📚 All PHP Files - Print Version</h1>
+        <div class="file-count">Total: <?= count($php_files) ?> files</div>
+    </div>
+    
+    <?php foreach ($php_files as $file): 
+        $content = htmlspecialchars(file_get_contents($file));
+    ?>
+        <div class="file-section">
+            <div class="file-header">
+                <h2>📄 <?= htmlspecialchars($file) ?></h2>
+                <span style="color: #6c757d; font-size: 12px;">
+                    Size: <?= round(filesize($file)/1024, 2) ?> KB
+                </span>
+            </div>
+            <pre><?= $content ?></pre>
+        </div>
+    <?php endforeach; ?>
+    
+    <div class="no-print">
+        <button onclick="window.print()" class="btn btn-print">🖨️ Print All Files</button>
+        <a href="download_files.php" class="btn" style="background: #6c757d;">⬅️ Back</a>
+    </div>
+    
+    <script>
+        // Uncomment to auto-print
+        // window.onload = function() { window.print(); }
+    </script>
+</body>
+</html>
