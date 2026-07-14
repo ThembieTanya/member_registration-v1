@@ -38,9 +38,6 @@ Admin	  admin	        admin123
 Editor	hopley_editor	admin123
 Viewer	viewer	      viewer123
 
-**📁 Project Structure**
-[Include your folder structure here]
-
 **🔒 Security**
 a. Password hashing with bcrypt
 b. PDO prepared statements
